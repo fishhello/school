@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.TimechoContentsMapper">
+  <resultMap id="BaseResultMap" type="entity.TimechoContents">
+    <id column="cid" jdbcType="INTEGER" property="cid" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="blockid" jdbcType="INTEGER" property="blockid" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="authorid" jdbcType="INTEGER" property="authorid" />
+    <result column="likes" jdbcType="INTEGER" property="likes" />
+    <result column="tag" jdbcType="VARCHAR" property="tag" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="entity.TimechoContents">
+    <result column="text" jdbcType="LONGVARCHAR" property="text" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    cid, title, blockid, created, authorid, likes, tag
+  </sql>
+  <sql id="Blob_Column_List">
+    text
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="entity.TimechoContentsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="entity.TimechoContentsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from timecho_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from timecho_contents
+    where cid = #{cid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="entity.TimechoContentsExample">
+    delete from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="entity.TimechoContents">
+    insert into timecho_contents (cid, title, blockid, 
+      created, authorid, likes, 
+      tag, text)
+    values (#{cid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{blockid,jdbcType=INTEGER}, 
+      #{created,jdbcType=TIMESTAMP}, #{authorid,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, 
+      #{tag,jdbcType=VARCHAR}, #{text,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="entity.TimechoContents">
+    insert into timecho_contents
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        cid,
+      </if>
+      <if test="title != null">
+        title,
+      </if>
+      <if test="blockid != null">
+        blockid,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="authorid != null">
+        authorid,
+      </if>
+      <if test="likes != null">
+        likes,
+      </if>
+      <if test="tag != null">
+        tag,
+      </if>
+      <if test="text != null">
+        text,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cid != null">
+        #{cid,jdbcType=INTEGER},
+      </if>
+      <if test="title != null">
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="blockid != null">
+        #{blockid,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorid != null">
+        #{authorid,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null">
+        #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="entity.TimechoContentsExample" resultType="java.lang.Long">
+    select count(*) from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update timecho_contents
+    <set>
+      <if test="record.cid != null">
+        cid = #{record.cid,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null">
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.blockid != null">
+        blockid = #{record.blockid,jdbcType=INTEGER},
+      </if>
+      <if test="record.created != null">
+        created = #{record.created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.authorid != null">
+        authorid = #{record.authorid,jdbcType=INTEGER},
+      </if>
+      <if test="record.likes != null">
+        likes = #{record.likes,jdbcType=INTEGER},
+      </if>
+      <if test="record.tag != null">
+        tag = #{record.tag,jdbcType=VARCHAR},
+      </if>
+      <if test="record.text != null">
+        text = #{record.text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update timecho_contents
+    set cid = #{record.cid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      blockid = #{record.blockid,jdbcType=INTEGER},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      authorid = #{record.authorid,jdbcType=INTEGER},
+      likes = #{record.likes,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=VARCHAR},
+      text = #{record.text,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update timecho_contents
+    set cid = #{record.cid,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      blockid = #{record.blockid,jdbcType=INTEGER},
+      created = #{record.created,jdbcType=TIMESTAMP},
+      authorid = #{record.authorid,jdbcType=INTEGER},
+      likes = #{record.likes,jdbcType=INTEGER},
+      tag = #{record.tag,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="entity.TimechoContents">
+    update timecho_contents
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="blockid != null">
+        blockid = #{blockid,jdbcType=INTEGER},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="authorid != null">
+        authorid = #{authorid,jdbcType=INTEGER},
+      </if>
+      <if test="likes != null">
+        likes = #{likes,jdbcType=INTEGER},
+      </if>
+      <if test="tag != null">
+        tag = #{tag,jdbcType=VARCHAR},
+      </if>
+      <if test="text != null">
+        text = #{text,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="entity.TimechoContents">
+    update timecho_contents
+    set title = #{title,jdbcType=VARCHAR},
+      blockid = #{blockid,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      authorid = #{authorid,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR},
+      text = #{text,jdbcType=LONGVARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="entity.TimechoContents">
+    update timecho_contents
+    set title = #{title,jdbcType=VARCHAR},
+      blockid = #{blockid,jdbcType=INTEGER},
+      created = #{created,jdbcType=TIMESTAMP},
+      authorid = #{authorid,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
+      tag = #{tag,jdbcType=VARCHAR}
+    where cid = #{cid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="entity.TimechoContentsExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExampleWithRowbounds" parameterType="entity.TimechoContentsExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from timecho_contents
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

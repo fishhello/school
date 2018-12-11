@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.TimechoCommentsPlusMapper">
+	<sql id="commentBaseColumn">
+		a.`coid`,
+		a.`author`,
+		a.`created`,
+		a.`mail`,
+		a.`url`,
+		a.`cid`,
+		a.`text` ,
+		b.`name` as authorName
+	</sql>
+	<select id="selectCommentsById" parameterType="int" resultType="TimechoCommentsPlus">
+	  SELECT  
+	  <include refid="commentBaseColumn"></include>
+	  FROM timecho_comments a 
+	  LEFT JOIN timecho_user b 
+	  ON a.`author`=b.`uid` WHERE a.`cid`=#{cid}
+	</select>
+</mapper>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+<!--     <constant name="struts.enable.DynamicMethodInvocation" value="true"/>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.configuration.xml.reload" value="true"/>
+    国际化配置
+    <constant name="struts.custom.i18n.resources" value="res"/>
+    <constant name="struts.i18n.encoding" value="UTF-8"/>
+    <constant name="struts.i18n.reload" value="true"/>
+    <constant name="struts.ui.theme" value="simple"/>
+
+    <constant name="struts.objectFactory" value="spring" />
+
+    <constant name="struts.action.extension" value="action,do"/>
+    
+    <constant name="struts.action.excludePattern" value="/myservlet.action,/tag.jsp"/> -->
+        <!-- 指定默认编码集 ，作用于HttpServletRequest的setCharacterEncoding（）和freemarker，vilocity的输出 -->  
+    <constant name="struts.i18n.encoding" value="UTF-8"/>  
+    <!-- 当struts配置文件修改时是否自动加载 -->  
+    <constant name="struts.configuration.xmlreload" value="true"/>  
+    <!-- 开发模式下打印详细的错误信息，默认为false -->    
+    <constant name="struts.devMode" value="true"/>  
+    <!-- 标准的UI主题，默认的UI主题为xhtml，可以为simple,xhtml或ajax -->  
+    <constant name="struts.ui.theme" value="xhtml"/>  
+    
+     <package name="reg" extends="struts-default" namespace="/">
+        <action name="userLogina" class="loginAction">
+            <interceptor-ref name="token"/>
+          	<interceptor-ref name="defaultStack"/>
+
+          	<result name="invalid.token">WEB-INF/content/timecho/index.jsp</result>    
+ 			<result name="success" >WEB-INF/content/timecho/index.jsp</result>
+			<result name="error" type='redirect'>index.jsp?t=%25e7%2594%25a8%25e6%2588%25b7%25e5%2590%258d%25e6%2588%2596%25e5%25af%2586%25e7%25a0%2581%25e9%2594%2599%25e8%25af%25af</result> 
+		</action>
+		<action name="registera" class="registerAction">
+			<result name="success">WEB-INF/content/timecho/index.jsp</result>
+			<result name="error" type='redirect'>index.jsp?t=%25e7%2594%25a8%25e6%2588%25b7%25e6%25b3%25a8%25e5%2586%258c%25e5%25a4%25b1%25e8%25b4%25a5</result> 
+		</action>
+		<action name="loginouta" class="loginOutAction" >
+			<result name="success" type='redirect'>index.jsp</result>
+		</action>
+		
+		<action name="MPIa" class="modifyAction" >
+			<result name="success">WEB-INF/content/timecho/page.jsp</result>
+			<result name="error">WEB-INF/content/timecho/page.jsp</result>
+		</action>
+		<action name="submmitContentsa" class="submmitContentsAction" >
+			<!-- <interceptor-ref name="token"/>
+          	<interceptor-ref name="defaultStack"/>
+          	<result name="invalid.token">WEB-INF/content/timecho/index.jsp</result>   --> 
+			<result name="success" >WEB-INF/content/timecho/index.jsp</result>
+			<result name="error">WEB-INF/content/timecho/submmit.jsp</result>
+		</action>
+		
+		
+		<action name="userInfoshowa">  
+		      <result>/WEB-INF/content/timecho/page.jsp</result>  
+		</action> 
+		<action name="indexa">  
+		      <result>/WEB-INF/content/timecho/index.jsp</result>  
+		</action>
+		
+		<action name="oneArticlesa">  
+		      <result>WEB-INF/content/timecho/single.jsp</result>  
+		</action> 
+		
+		<action name="summita">  
+		      <result>WEB-INF/content/timecho/submmit.jsp</result>  
+		</action>
+		<action name="searcha">  
+		      <result>WEB-INF/content/timecho/articles-list.jsp</result>  
+		</action>
+    </package>
+    <package name="ajax" extends="json-default">
+	    <action name="userInfoa" class="userInfoAction">
+			<!-- 将返回类型设置为json -->
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		
+		<action name="newArticlesa" class="newArticlesAction">
+			<!-- 将返回类型设置为json -->
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="hotArticlesa" class="hotArticlesAction">
+			<!-- 将返回类型设置为json -->
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		
+		<action name="singleArticlesa" class="singleArticlesAction" >
+			<!-- 将返回类型设置为json -->
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="commentsa" class="commentsAction">
+			<result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="singleArticlescommentsa" class="singleArticlesCommentsAction">
+			<result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="classifiesa" class="classifiesaAction">
+			<result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="articleLikea" class="articleLikeAction">
+			<result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+		<action name="searchArticlesa" class="searchArticlesAction">
+			<!-- 将返回类型设置为json -->
+            <result name="success" type="json">
+                <param name="root">result</param>
+            </result>
+		</action>
+	</package>
+</struts>

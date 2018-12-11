@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
+
+<!-- 自动扫描spring bean -->  
+    <context:component-scan base-package="service,dao,action,entity" /> 
+<!--     隐式地向 Spring容器注册注解
+	<context:annotation-config/>  -->
+<!-- 引入数据配置文件 -->    
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
+       <property name="location" value="classpath:jdbc.properties"/>  
+    </bean> 
+    
+<!--配置数据连接-->   
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">     
+    <!-- 指定连接数据库的JDBC驱动 -->  
+        <property name="driverClassName" value="${db.driverClassName}" />  
+        <!-- 连接数据库所用的URL -->  
+        <property name="url" value="${db.url}" />  
+         <!-- 连接数据库的用户名 -->
+        <property name="username" value="${db.username}" />  
+        <!-- 连接数据库的密码 -->  
+        <property name="password" value="${db.password}" />  
+<!--         初始化连接大小
+        <property name="initialSize" value="${db.initialSize}"/>
+        连接池最大数量
+        <property name="maxActive" value="${db.maxActive}"/>
+        连接池最大空闲
+        <property name="maxIdle" value="${db.maxIdle}"/>
+        连接池最小空闲
+        <property name="minIdle" value="${db.minIdle}"/>
+        获取连接最大等待时间
+        <property name="maxWait" value="${db.maxWait}"/> -->
+    </bean>  
+ 
+<!-- SqlSessionFactory -->
+    <bean id="sf" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <!-- com.entity.Student 可以写 sutdent、定义命名规则-->
+        <property name="typeAliasesPackage" value="entity"/>
+        <!-- 自动扫描mapping.xml文件 -->
+        <property name="mapperLocations" value="classpath:dao/*Mapper.xml"/>
+    </bean>
+      
+<!-- 扫描mapper包 自动在spring中生成 xxxxMapper bean -->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="dao,service"/>
+        <property name="sqlSessionFactoryBeanName" value="sf"/>
+    </bean>
+    
+<!-- 事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <tx:annotation-driven transaction-manager="transactionManager"/>	
+</beans>

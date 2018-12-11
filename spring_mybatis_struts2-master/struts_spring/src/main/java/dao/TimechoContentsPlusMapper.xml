@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.TimechoContentsPlusMapper">
+	<sql id="baseColum">
+	a.`cid`,
+	a.`title`,
+	a.`blockid`,
+	a.`created`,
+	a.`authorid`,
+	a.`text`,
+	a.`likes`,
+	a.`tag`,
+	b.`name` as authorName
+	</sql>
+
+	<select id="selectContentsById" parameterType="int" resultType="TimechoContentsPlus" >
+		SELECT  
+		
+		<include refid="baseColum"></include>
+		
+		FROM timecho_contents a 
+		LEFT JOIN timecho_user b 
+		ON a.`authorid`=b.`uid` WHERE a.cid=#{cid};
+	</select>
+</mapper>
